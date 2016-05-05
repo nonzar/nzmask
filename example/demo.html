@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>simple</title>
+    <style>
+        body {
+            line-height: 2;
+        }
+
+        a {
+            color: #3d3d3d;
+            display: block;
+        }
+
+        .nzmask {
+            text-align: center;
+        }
+
+        .nzmask,
+        .nzmask a {
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+<div id="mask1" class="nzmask">
+    <h1>mask1<a href="javascript:mask.hide(1);">close</a></h1>
+</div>
+<div id="mask2" class="nzmask">
+    <h1>mask2<a href="javascript:mask.hide(2);">close</a></h1>
+</div>
+<div id="mask3" class="nzmask" data-tpl="tpl_mask3.html">mask 3</div>
+<script src="../src/jquery.min.js"></script>
+<script src="../src/nz.mask.js"></script>
+<script>
+    var mask = new NZMask().installCSS();
+    mask.on("load", function (e) {
+        console.log("ansy加载第" + e.index + "个遮罩,该遮罩id为" + e.id);
+    });
+    mask.on("show", function (e) {
+        console.log("显示第" + e.index + "个遮罩,该遮罩id为" + e.id);
+    });
+    mask.on("hide", function (e) {
+        console.log("关闭第" + e.indexs.join("和") + "个遮罩,该遮罩id为" + e.ids.join("和"));
+    });
+    function createButton(txt, callback_click) {
+        var btn = document.createElement("a");
+        btn.href = "javascript:;";
+        btn.appendChild(document.createTextNode(txt));
+        btn.addEventListener("click", callback_click, false);
+        return btn;
+    }
+    document.body.appendChild(createButton("显示遮罩0", function () {
+        mask.show(0, function () {
+            console.log("我是遮罩0显示后的回调");
+        });
+    }));
+    document.body.appendChild(createButton("显示遮罩1", function () {
+        mask.show(1, function () {
+            console.log("我是遮罩1显示后的回调");
+        });
+    }));
+    document.body.appendChild(createButton("显示遮罩2(异步)", function () {
+        mask.show(2, function () {
+            console.log("我是遮罩2异步加载并显示后的回调");
+        });
+    }));
+    document.body.appendChild(createButton("关闭所有遮罩", function () {
+        mask.hide();
+    }));
+</script>
+</body>
+</html>
