@@ -3,26 +3,23 @@ var NZMask = (function () {
      * 添加NZMask样式表
      * 建议该段代码放到css里
      .nzmask {
-         background-color: rgba(0, 0, 0, 0.8);
-         width: 100%;
-         height: 100%;
-         visibility: hidden;
-         overflow: hidden;
-         z-index: -9999;
-         position: fixed;
-         left: 0px;
-         top: 0px;
-         -webkit-transform: translate(0);
+     background-color: rgba(0, 0, 0, 0.8);
+     width: 100%;
+     height: 100%;
+     visibility: hidden;
+     overflow: hidden;
+     z-index: -9999;
+     position: fixed;
+     left: 0px;
+     top: 0px;
+     -webkit-transform: translate(0);
      }
 
      .show-nzmask {
-        visibility: visible;
+     visibility: visible;
      }
      */
 
-    /*
-     * mask是遮罩类,用于显示遮罩层.
-     */
     var isInstallCss = false;
     var mask = function (options) {
         this.options = options;
@@ -39,7 +36,7 @@ var NZMask = (function () {
             this.ansys[i].isLoad = (this.ansys[i].url != null && this.ansys[i].length != 0) ? false : true;
         }
         delete _elMasks;
-        if(options){
+        if (options) {
             if (options["onLoad"]) {
                 this.on("load", options["onLoad"]);
             }
@@ -78,21 +75,12 @@ var NZMask = (function () {
             "");
         return this;
     }
-    /*
-     * 绑定事件
-     *
-     */
     mask.prototype.on = function (event, listener) {
         if (!this.__event[event]) {
             this.__event[event] = [];
         }
         this.__event[event].push(listener);
     }
-
-    /*
-     * 触发事件
-     *
-     */
     mask.prototype.__triggerEvent = function (event, args) {
         if (this.__event[event]) {
             for (var i = 0; i < this.__event[event].length; i++) {
@@ -100,13 +88,8 @@ var NZMask = (function () {
             }
         }
     }
-    /*
-     * 根据id获取遮罩在集合中的序号
-     * @param {string} [id] 遮罩的id
-     * @return number
-     */
     mask.prototype.getIdx = function (id) {
-        if (typeof(id) != "string") throw "NZMask - id is not string.";
+        if (typeof(id) != "string") throw "error";
         if (this.elMasks && this.elMasks.length) {
             for (var i = 0; i < this.elMasks.length; i++) {
                 if (this.elMasks[i].id == id) {
@@ -116,17 +99,11 @@ var NZMask = (function () {
         }
         return -1;
     }
-    /*
-     * 显示遮罩(叠加显示,如要隐藏前一个,请调用hide方法)
-     * @param {number} [idx] 遮罩的序号
-     * @return this
-     */
     mask.prototype.show = (function () {
         return function (idx, callback) {
-            // debugger;
             if (typeof(idx) != "number") {
                 if (typeof(idx) != "string") {
-                    throw "NZMask - idx is not number or string.";
+                    throw "error";
                 }
                 idx = this.getIdx(idx);
                 if (idx == -1)return;
@@ -160,11 +137,6 @@ var NZMask = (function () {
             return this;
         }
     })();
-    /*
-     * 隐藏遮罩,如传入idx则隐藏该idx遮罩,否则全部隐藏
-     * @param {number} [idx] 遮罩的序号
-     * @return this
-     */
     mask.prototype.hide = (function () {
         var idxs = [], ids = [];
         return function (idx, callback) {
@@ -172,7 +144,7 @@ var NZMask = (function () {
             if (idx != undefined) {
                 if (typeof(idx) != "number") {
                     if (typeof(idx) != "string") {
-                        throw "NZMask - idx is not number or string.";
+                        throw "error";
                     }
                     idx = this.getIdx(idx);
                 }
@@ -205,7 +177,7 @@ var NZMask = (function () {
     mask.prototype.remove = function (idx) {
         if (typeof(idx) != "number") {
             if (typeof(idx) != "string") {
-                throw "NZMask - idx is not number or string.";
+                throw "error";
             }
             idx = this.getIdx(idx);
         }
